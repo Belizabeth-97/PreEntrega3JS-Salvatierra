@@ -77,10 +77,6 @@ h2 {
   padding: 8%;
 }
 
-.carrito {
-  left: 95%;
-  width: 12%;
-}
 
 .imagenPrincipal {
   height: 35%;
@@ -181,6 +177,7 @@ h2 {
     flex-wrap: wrap;
     gap: 2rem;
     list-style: none;
+    padding: 35px;
   }
   .logo {
     display: inline-flex;
@@ -188,10 +185,14 @@ h2 {
     width: 20%;
     row-gap: 50%;
   }
+
   .compras {
-    display: inline-flex;
-    justify-content: space-between;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5rem;
   }
+
   #grilla {
     display: grid;
     grid-template-areas: "accesoCuotas accesoAccesorios" "accesoCuotas accesoProducto";
@@ -219,12 +220,13 @@ h2 {
     justify-content: center;
     flex-wrap: wrap;
   }
+
   #grilla-contacto {
     display: grid;
     grid-template-areas: "datos mapa" "datos mapa";
     grid-template-columns: 50% 50%;
   }
-}
+
 /* FORMULARIO DE CONTACTO */
 #grilla-contacto {
   display: grid;
@@ -291,6 +293,20 @@ input[type=text], input[type=tel], input[type=email] {
   border-radius: 5%;
 }
 
+.agregarCarrito {
+  background-color: #49403a;  
+  color: white; 
+  padding: 5px 10px; 
+  border: none; 
+  border-radius: 5px; 
+}
+
+.agregarCarrito:hover {
+  background-color: white; /* Cambio de color al pasar el ratón */
+  color: #49403a;
+}
+
+
 /* ARTICULOS DE COMPRA A LA VENTA */
 .compras {
   text-align: center;
@@ -324,7 +340,7 @@ input[type=submit i]:hover {
   color: #49403a;
 }
 
-/* INFORMECION COMO COMPRAR */
+/* INFORMACION COMO COMPRAR */
 .textoComoComprar {
   padding-top: 5%;
   font-family: "Montserrat";
