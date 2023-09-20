@@ -28,7 +28,6 @@ class ControladorProducto{
   }
 
   mostrar() {
-    console.log(this.listaProductosI)
     let contenedor_indumentaria = document.getElementById("contenedor_indumentaria");
 
     this.listaProductosI.forEach((producto) => {
@@ -41,7 +40,7 @@ class ControladorProducto{
             <button class="agregarCarrito" style="font-family: Montserrat" id="ap-${producto.id}" 
               data-id="${producto.id}" 
               data-nombre="${producto.nombre}" 
-              data-precio="$${producto.precio}">Añadir al carrito</button>s
+              data-precio="$${producto.precio}">Añadir al carrito</button>
           </div>
         </div>`;
     });
@@ -64,6 +63,12 @@ class Carrito {
 
   agregar(producto){
     this.listaCarrito.push(producto);
+    this.guardarCarritoEnLocalStorage();
+  }
+
+  guardarCarritoEnLocalStorage(){
+    const carritoJSON = JSON.stringify(this.listaCarrito);
+    localStorage.setItem("carrito", carritoJSON)
   }
 
   mostrar(){
