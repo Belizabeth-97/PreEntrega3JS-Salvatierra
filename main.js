@@ -67,8 +67,15 @@ class Carrito {
   }
 
   guardarCarritoEnLocalStorage(){
-    const carritoJSON = JSON.stringify(this.listaCarrito);
-    localStorage.setItem("carrito", carritoJSON)
+    let carritoJSON = JSON.stringify(this.listaCarrito);
+    localStorage.setItem("listaCarrito", carritoJSON)
+  }
+
+  recuperarStorage(){
+    let carritoJSON = localStorage.getItem("listaCarrito")
+    if (carritoJSON) {
+      this.listaCarrito = JSON.parse(carritoJSON);
+    }
   }
 
   mostrar(){
