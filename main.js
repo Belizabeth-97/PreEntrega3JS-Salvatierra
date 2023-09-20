@@ -14,6 +14,8 @@ const listaProductosA = [
   ];
 
 function renderIndumentaria(listaProductosI, contenedor_indumentaria) {
+  contenedor_indumentaria.innerHTML =" ";
+
   listaProductosI.forEach(producto => {
     contenedor_indumentaria.innerHTML += `
       <div class="card" style="width: 20rem; background-color: rgba(239, 228, 224, 0.8784313725);">
@@ -34,6 +36,8 @@ function renderIndumentaria(listaProductosI, contenedor_indumentaria) {
 renderIndumentaria(listaProductosI, contenedor_indumentaria);
 
 function renderAccesorios(listaProductosA, contenedor_accesorios) {
+    contenedor_accesorios.innerHTML =" ";
+
   listaProductosA.forEach(producto => {
     contenedor_accesorios.innerHTML += `
       <div class="card" style="width: 20rem; background-color: rgba(239, 228, 224, 0.8784313725);">
