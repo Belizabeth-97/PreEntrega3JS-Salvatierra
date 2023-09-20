@@ -1,115 +1,99 @@
-const contenedor_indumentaria = document.getElementById("contenedor_indumentaria");
-const contenedor_accesorios = document.getElementById("contenedor_accesorios");
-
-const listaProductosI = [
-  { id: 1, nombre: "Conjunto Roma", precio: 25300, img: "../img/sastrero.png" },
-  { id: 2, nombre: "Sastrero Mia", precio: 11400, img: "../img/palazoArena.png" },
-  { id: 3, nombre: "Sweater Victoria", precio: 5600, img: "../img/sweater.png" },
-];
-
-const listaProductosA = [
-    { id: 1, nombre: "Anillo Cobra", precio: 5300, img: "../img/anillocobra.png" },
-    { id: 2, nombre: "Aros Renata", precio: 4400, img: "../img/arosrenata.png" },
-    { id: 3, nombre: "Collar Estrellas", precio: 3600, img: "../img/collarestrellas.png" },
-  ];
-
-function renderIndumentaria(listaProductosI, contenedor_indumentaria) {
-  contenedor_indumentaria.innerHTML =" ";
-
-  listaProductosI.forEach(producto => {
-    contenedor_indumentaria.innerHTML += `
-      <div class="card" style="width: 20rem; background-color: rgba(239, 228, 224, 0.8784313725);">
-        <img src="${producto.img}" class="card-img-top mx-auto" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">${producto.nombre}</h5>
-          <p class="card-text">$${producto.precio}</p>
-          <button class="agregarCarrito" 
-                  data-id="${producto.id}" 
-                  data-nombre="${producto.nombre}" 
-                  data-precio="$${producto.precio}">Añadir al carrito</button>
-        </div>
-      </div>`;
-  });
+class Producto {
+  constructor ( id, nombre, precio, img){
+    this.id = id
+    this.nombre = nombre
+    this.precio = precio
+    this.cantidad = 1
+    this.img = img
+  }
 }
 
-// Llama a la función render para mostrar inicialmente los productos
-renderIndumentaria(listaProductosI, contenedor_indumentaria);
+class ControladorProducto{
+  constructor (){
+    this.listaProductosI  = []
+  }
 
-function renderAccesorios(listaProductosA, contenedor_accesorios) {
-    contenedor_accesorios.innerHTML =" ";
+  agregar (producto){
+    this.listaProductosI.push(producto)
+  }
 
-  listaProductosA.forEach(producto => {
-    contenedor_accesorios.innerHTML += `
-      <div class="card" style="width: 20rem; background-color: rgba(239, 228, 224, 0.8784313725);">
-        <img src="${producto.img}" class="card-img-top mx-auto" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">${producto.nombre}</h5>
-          <p class="card-text">$${producto.precio}</p>
-          <button class="agregarCarrito" 
-                  data-id="${producto.id}" 
-                  data-nombre="${producto.nombre}" 
-                  data-precio="$${producto.precio}">Añadir al carrito</button>
-        </div>
-      </div>`;
-  });
+  cargarProductos(){
+    const p1 = new Producto(1, "Conjunto Roma", 25300, "../img/sastrero.png")
+    const p2 = new Producto(2, "Sastrero Mia", 11400, "../img/palazoArena.png")
+    const p3 = new Producto(3, "Sweater Victoria", 7600, "../img/sweater.png")
+
+    CP.agregar(p1)
+    CP.agregar(p2)
+    CP.agregar(p3)
+  }
+
+  mostrar() {
+    console.log(this.listaProductosI)
+    let contenedor_indumentaria = document.getElementById("contenedor_indumentaria");
+
+    this.listaProductosI.forEach((producto) => {
+      contenedor_indumentaria.innerHTML += `
+        <div class="card" style="width: 20rem; background-color: rgba(239, 228, 224, 0.8784313725);">
+          <img src="${producto.img}" class="card-img-top mx-auto" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">${producto.nombre}</h5>
+            <p class="card-text">$${producto.precio}</p>
+            <button class="agregarCarrito" style="font-family: Montserrat" id="ap-${producto.id}" 
+              data-id="${producto.id}" 
+              data-nombre="${producto.nombre}" 
+              data-precio="$${producto.precio}">Añadir al carrito</button>s
+          </div>
+        </div>`;
+    });
+
+    this.listaProductosI.forEach((producto) => {
+      const AniadirProducto = document.getElementById(`ap-${producto.id}`);
+
+      AniadirProducto.addEventListener("click", () => {
+        carrito.agregar(producto);
+        carrito.mostrar();
+      });
+    });
+  }
 }
 
-renderAccesorios(listaProductosA, contenedor_accesorios);
+class Carrito {
+    constructor(){
+    this.listaCarrito = [];
+  }
 
+  agregar(producto){
+    this.listaCarrito.push(producto);
+  }
 
-// Agrego evento click a los botones "Añadir al carrito"
-const agregarCarrito = document.querySelectorAll("#agregarCarrito");
+  mostrar(){
+    let contenedor_carrito = document.getElementById("contenedor_carrito");
+    contenedor_carrito.innerHTML = ""
 
-// Agrego evento click a los botones "Añadir al carrito" en productos
-const agregarCarritoProductos = document.querySelectorAll("#contenedor_indumentaria #agregarCarrito");
-agregarCarritoProductos.forEach(boton => {
-  boton.addEventListener("click", agregarAlCarrito);
-});
-
-// Agrego evento click a los botones "Añadir al carrito" en accesorios
-const agregarCarritoAccesorios = document.querySelectorAll("#contenedor_accesorios #agregarCarrito");
-agregarCarritoAccesorios.forEach(boton => {
-  boton.addEventListener("click", agregarAlCarrito);
-});
-
-const bolsa = document.getElementById("bolsa")
-const listaCarrito= document.getElementById("lista-carrito");
-
-const carrito = " "
-
-function agregarAlCarrito(event) {
-  // Información del producto desde el botón
-  const producto = {
-    id: event.target.dataset.id,
-    nombre: event.target.dataset.nombre,
-    precio: parseFloat(event.target.dataset.precio)
-  };
-
-  agregarProductoAlCarrito(producto);
-  actualizarCarrito();
+    this.listaCarrito.forEach((producto) => {
+      contenedor_carrito.innerHTML += `
+        <div class="card mb-3" style="max-width: 540px;">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img src="${producto.img}" class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">${producto.nombre}</h5>
+                <p class="card-text">Cantidad: ${producto.cantidad}</p>
+                <p class="card-text">Precio: $${producto.precio}</p>
+              </div>
+            </div>
+          </div>
+        </div>`;
+    });
+  }
 }
 
-function agregarProductoAlCarrito(producto) {
-  carrito.push(producto);
-}
+const CP = new ControladorProducto ();
+const carrito = new Carrito();
 
-function actualizarCarrito() {
-  const listaCarrito= document.getElementById("lista-carrito");
-  listaCarrito.innerHTML = ""; // Borra el contenido actual del carrito
 
-  let total = 0;
-
-  carrito.forEach(producto => {
-    const itemCarrito = document.createElement("li");
-    itemCarrito.innerHTML = `${producto.nombre} - $${producto.precio.toFixed(2)}`;
-    listaCarrito.appendChild(itemCarrito);
-
-    total += producto.precio;
-  });
-
-  // Muestra el total en el carrito
-  const totalCarrito = document.createElement("li");
-  totalCarrito.innerHTML = `Total: $${total.toFixed(2)}`;
-  listaCarrito.appendChild(totalCarrito);
-}
+CP.cargarProductos();
+CP.mostrar ();
 
